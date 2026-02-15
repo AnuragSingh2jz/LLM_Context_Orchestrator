@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "CLO — Cross-LLM Context Orchestrator",
+  "version": "0.1.0",
+  "description": "Seamless reasoning portability across LLM platforms. Never lose context again.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*",
+    "https://grok.x.ai/*",
+    "https://x.com/i/grok*"
+  ],
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "assets/index.ts-loader-Jee9KXdo.js"
+      ],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://grok.x.ai/*",
+        "https://x.com/i/grok*"
+      ],
+      "css": [
+        "overlay.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://grok.x.ai/*",
+        "https://x.com/*"
+      ],
+      "resources": [
+        "assets/injector-DGr5dEOY.js",
+        "assets/index.ts-BHow-N-n.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ]
+}

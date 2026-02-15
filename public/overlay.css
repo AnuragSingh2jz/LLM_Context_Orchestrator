@@ -1,0 +1,292 @@
+/* ============================================================================
+   CLO — HUD Overlay Styles
+   The persistent in-page indicator shown on LLM platforms.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --clo-bg: rgba(10, 10, 15, 0.92);
+  --clo-bg-glass: rgba(20, 20, 30, 0.8);
+  --clo-border: rgba(255, 255, 255, 0.08);
+  --clo-border-active: rgba(99, 102, 241, 0.5);
+  --clo-text: rgba(255, 255, 255, 0.92);
+  --clo-text-dim: rgba(255, 255, 255, 0.5);
+  --clo-accent: #818cf8;
+  --clo-accent-glow: rgba(129, 140, 248, 0.3);
+  --clo-success: #34d399;
+  --clo-warning: #fbbf24;
+  --clo-error: #f87171;
+  --clo-chatgpt: #10a37f;
+  --clo-claude: #d97757;
+  --clo-gemini: #4285f4;
+  --clo-grok: #ffffff;
+  --clo-radius: 12px;
+  --clo-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --clo-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── Main HUD Container ─────────────────────────────────────────────────────── */
+
+#clo-hud {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999999;
+  font-family: var(--clo-font);
+  font-size: 13px;
+  color: var(--clo-text);
+  pointer-events: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#clo-hud.minimized #clo-hud-panel {
+  display: none;
+}
+
+/* ── HUD Toggle Button ──────────────────────────────────────────────────────── */
+
+#clo-hud-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--clo-bg);
+  border: 1px solid var(--clo-border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 30px var(--clo-accent-glow);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#clo-hud-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--clo-accent), transparent 30%, transparent 70%, var(--clo-accent));
+  z-index: -1;
+  animation: clo-rotate 3s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes clo-rotate {
+  to { transform: rotate(360deg); }
+}
+
+#clo-hud-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 40px var(--clo-accent-glow);
+}
+
+#clo-hud-toggle svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--clo-accent);
+}
+
+/* ── HUD Panel ──────────────────────────────────────────────────────────────── */
+
+#clo-hud-panel {
+  background: var(--clo-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--clo-border);
+  border-radius: var(--clo-radius);
+  padding: 16px;
+  min-width: 280px;
+  max-width: 340px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  animation: clo-slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes clo-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── HUD Header ─────────────────────────────────────────────────────────────── */
+
+.clo-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--clo-border);
+}
+
+.clo-logo {
+  font-family: var(--clo-font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--clo-accent), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+}
+
+.clo-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--clo-success);
+  box-shadow: 0 0 8px var(--clo-success);
+  animation: clo-pulse 2s ease-in-out infinite;
+}
+
+.clo-status-dot.warning {
+  background: var(--clo-warning);
+  box-shadow: 0 0 8px var(--clo-warning);
+}
+
+.clo-status-dot.error {
+  background: var(--clo-error);
+  box-shadow: 0 0 8px var(--clo-error);
+}
+
+@keyframes clo-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Stats Grid ─────────────────────────────────────────────────────────────── */
+
+.clo-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.clo-stat {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--clo-border);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.clo-stat:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.clo-stat-value {
+  font-family: var(--clo-font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--clo-accent);
+  line-height: 1;
+}
+
+.clo-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--clo-text-dim);
+  margin-top: 4px;
+}
+
+/* ── Platform Indicator ─────────────────────────────────────────────────────── */
+
+.clo-platform {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--clo-text-dim);
+  margin-bottom: 12px;
+}
+
+.clo-platform-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.clo-platform-dot.chatgpt { background: var(--clo-chatgpt); }
+.clo-platform-dot.claude { background: var(--clo-claude); }
+.clo-platform-dot.gemini { background: var(--clo-gemini); }
+.clo-platform-dot.grok { background: var(--clo-grok); }
+
+/* ── Action Buttons ─────────────────────────────────────────────────────────── */
+
+.clo-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.clo-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--clo-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--clo-text);
+  font-family: var(--clo-font);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.clo-btn:hover {
+  background: rgba(129, 140, 248, 0.1);
+  border-color: var(--clo-border-active);
+  color: var(--clo-accent);
+}
+
+.clo-btn.primary {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(167, 139, 250, 0.15));
+  border-color: var(--clo-border-active);
+  color: var(--clo-accent);
+}
+
+.clo-btn.primary:hover {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.25), rgba(167, 139, 250, 0.25));
+}
+
+/* ── Notification Toast ─────────────────────────────────────────────────────── */
+
+#clo-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999999;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-family: var(--clo-font);
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  background: var(--clo-bg);
+  border: 1px solid var(--clo-border);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+#clo-notification.visible {
+  transform: translateX(0);
+}
+
+#clo-notification.info { border-left: 3px solid var(--clo-accent); }
+#clo-notification.success { border-left: 3px solid var(--clo-success); }
+#clo-notification.warning { border-left: 3px solid var(--clo-warning); }
+#clo-notification.error { border-left: 3px solid var(--clo-error); }

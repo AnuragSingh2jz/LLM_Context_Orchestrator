@@ -1,0 +1,20 @@
+{
+  "name": "clo-extension",
+  "version": "0.1.0",
+  "description": "Cross-LLM Context Orchestrator — Deterministic reasoning portability across LLM platforms.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "idb": "^8.0.1"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.28",
+    "@types/chrome": "^0.0.270",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.14"
+  }
+}

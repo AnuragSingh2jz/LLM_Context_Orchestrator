@@ -1,0 +1,404 @@
+/* ============================================================================
+   CLO — Popup UI Styles
+   Premium dark glassmorphism design for the extension popup.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #111118;
+    --bg-tertiary: #16161f;
+    --bg-hover: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.06);
+    --border-active: rgba(129, 140, 248, 0.4);
+    --text-primary: rgba(255, 255, 255, 0.92);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-dim: rgba(255, 255, 255, 0.35);
+    --accent: #818cf8;
+    --accent-light: #a5b4fc;
+    --accent-glow: rgba(129, 140, 248, 0.15);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #f87171;
+    --chatgpt: #10a37f;
+    --claude: #d97757;
+    --gemini: #4285f4;
+    --grok: #e8e8e8;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --font: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    width: 360px;
+    min-height: 480px;
+    overflow-x: hidden;
+}
+
+#clo-popup {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+
+#clo-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(129, 140, 248, 0.04), transparent);
+}
+
+.popup-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.popup-logo svg {
+    color: var(--accent);
+}
+
+.popup-logo-text {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+}
+
+.popup-version {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--bg-tertiary);
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+/* ── Status Bar ─────────────────────────────────────────────────────────────── */
+
+#clo-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-dim);
+}
+
+.status-dot.active {
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.platform-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+}
+
+.platform-badge.chatgpt {
+    color: var(--chatgpt);
+    border-color: rgba(16, 163, 127, 0.3);
+}
+
+.platform-badge.claude {
+    color: var(--claude);
+    border-color: rgba(217, 119, 87, 0.3);
+}
+
+.platform-badge.gemini {
+    color: var(--gemini);
+    border-color: rgba(66, 133, 244, 0.3);
+}
+
+.platform-badge.grok {
+    color: var(--grok);
+    border-color: rgba(232, 232, 232, 0.3);
+}
+
+/* ── Task Section ───────────────────────────────────────────────────────────── */
+
+#clo-task-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.section-icon {
+    font-size: 12px;
+}
+
+.task-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.task-objective {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* ── Stats Grid ─────────────────────────────────────────────────────────────── */
+
+#clo-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.popup-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 8px;
+    background: var(--bg-primary);
+    transition: background 0.2s ease;
+}
+
+.popup-stat:hover {
+    background: var(--bg-hover);
+}
+
+.popup-stat-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.popup-stat-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+/* ── Provenance Section ─────────────────────────────────────────────────────── */
+
+#clo-provenance-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.provenance-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.provenance-entry {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 11px;
+}
+
+.provenance-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.provenance-model {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.provenance-turns {
+    margin-left: auto;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+.provenance-empty {
+    text-align: center;
+    padding: 16px;
+    color: var(--text-dim);
+    font-size: 11px;
+    font-style: italic;
+}
+
+/* ── Actions ────────────────────────────────────────────────────────────────── */
+
+#clo-actions-section {
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.action-row {
+    display: flex;
+    gap: 6px;
+}
+
+.popup-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.popup-action-btn:hover {
+    background: var(--bg-hover);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.popup-action-btn.primary {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.12), rgba(167, 139, 250, 0.12));
+    border-color: var(--border-active);
+    color: var(--accent-light);
+    font-weight: 600;
+}
+
+.popup-action-btn.primary:hover {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.2), rgba(167, 139, 250, 0.2));
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.popup-action-btn.secondary {
+    font-size: 11px;
+    padding: 8px 10px;
+}
+
+.btn-icon {
+    font-size: 14px;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────────── */
+
+#clo-popup-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    border-top: 1px solid var(--border);
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+}
+
+#clo-popup-footer a {
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+#clo-popup-footer a:hover {
+    opacity: 1;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

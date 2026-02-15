@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLO — Cross-LLM Context Orchestrator</title>
+  <script type="module" crossorigin src="/assets/popup-BVEfrb_x.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/serializer-DRlg360a.js">
+  <link rel="stylesheet" crossorigin href="/assets/popup-DpTn1WuE.css">
+</head>
+<body>
+  <div id="clo-popup">
+    <!-- Header -->
+    <header id="clo-popup-header">
+      <div class="popup-logo">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        <span class="popup-logo-text">CLO</span>
+      </div>
+      <span class="popup-version">v0.1.0</span>
+    </header>
+
+    <!-- Status Bar -->
+    <div id="clo-status-bar">
+      <div class="status-indicator">
+        <span class="status-dot active" id="popup-status-dot"></span>
+        <span id="popup-status-text">Monitoring</span>
+      </div>
+      <div class="status-platform" id="popup-platform">
+        <span class="platform-badge" id="popup-platform-badge">—</span>
+      </div>
+    </div>
+
+    <!-- Task Info -->
+    <div id="clo-task-section">
+      <div class="section-header">
+        <span class="section-icon">📋</span>
+        <span>Active Task</span>
+      </div>
+      <div class="task-title" id="popup-task-title">No active task</div>
+      <div class="task-objective" id="popup-task-objective">Start a conversation on any LLM to begin tracking.</div>
+    </div>
+
+    <!-- Stats -->
+    <div id="clo-stats-grid">
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-turns">0</span>
+        <span class="popup-stat-label">Turns</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-artifacts">0</span>
+        <span class="popup-stat-label">Artifacts</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-constraints">0</span>
+        <span class="popup-stat-label">Constraints</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-decisions">0</span>
+        <span class="popup-stat-label">Decisions</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-models">0</span>
+        <span class="popup-stat-label">Models</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="popup-platforms">0</span>
+        <span class="popup-stat-label">Platforms</span>
+      </div>
+    </div>
+
+    <!-- Provenance Timeline -->
+    <div id="clo-provenance-section">
+      <div class="section-header">
+        <span class="section-icon">🔗</span>
+        <span>Provenance Chain</span>
+      </div>
+      <div id="popup-provenance-list" class="provenance-list">
+        <div class="provenance-empty">No cross-model activity yet</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="clo-actions-section">
+      <button class="popup-action-btn primary" id="popup-inject-btn">
+        <span class="btn-icon">⚡</span>
+        <span>Inject into Active Tab</span>
+      </button>
+      <div class="action-row">
+        <button class="popup-action-btn secondary" id="popup-export-btn">
+          <span class="btn-icon">📤</span>
+          <span>Export</span>
+        </button>
+        <button class="popup-action-btn secondary" id="popup-import-btn">
+          <span class="btn-icon">📥</span>
+          <span>Import</span>
+        </button>
+        <button class="popup-action-btn secondary" id="popup-new-btn">
+          <span class="btn-icon">✨</span>
+          <span>New</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="clo-popup-footer">
+      <span>Cross-LLM Context Orchestrator</span>
+      <a href="#" id="popup-settings-link">⚙️</a>
+    </footer>
+  </div>
+
+</body>
+</html>

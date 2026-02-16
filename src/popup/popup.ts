@@ -154,18 +154,30 @@ function setupListeners(): void {
         input.onchange = async (e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (!file) return;
-            const text = await file.text();
+            
             try {
+                const text = await file.text();
                 const state = importState(text);
-                await chrome.runtime.sendMessage({
+                
+                const response = await chrome.runtime.sendMessage({
                     type: "IMPORT_STATE",
                     payload: { state },
                     timestamp: Date.now(),
                     source: "popup",
                 } as CLOMessage);
-                await refreshState();
+
+                if (response?.success) {
+                    await refreshState();
+                    console.log("[CLO Popup] State imported successfully");
+                } else {
+                    const errorMsg = response?.error || "Import failed for unknown reason";
+                    console.error("[CLO Popup] Import failed:", errorMsg);
+                    alert(`Failed to import state: ${errorMsg}`);
+                }
             } catch (err) {
-                console.error("[CLO Popup] Import failed:", err);
+                const errorMsg = err instanceof Error ? err.message : String(err);
+                console.error("[CLO Popup] Import error:", errorMsg);
+                alert(`Import error: ${errorMsg}`);
             }
         };
         input.click();

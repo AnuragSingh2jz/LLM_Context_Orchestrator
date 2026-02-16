@@ -180,10 +180,35 @@ async function handleMessage(
         }
 
         case "IMPORT_STATE": {
-            const { state } = message.payload as { state: ReasoningState };
-            activeState = state;
-            await saveState(state);
-            sendResponse({ success: true });
+            try {
+                const { state } = message.payload as { state: ReasoningState };
+                
+                // Validate that the state is a valid ReasoningState object
+                if (!state || typeof state !== "object") {
+                    throw new Error("Invalid state object");
+                }
+                
+                if (!state.id || !state.meta) {
+                    throw new Error("State missing required fields");
+                }
+
+                activeState = state;
+                await saveState(state);
+                
+                console.log("[CLO Background] State imported successfully:", state.meta.title);
+                sendResponse({ 
+                    success: true,
+                    message: `Imported state: ${state.meta.title}`,
+                    stateId: state.id
+                });
+            } catch (err) {
+                const errorMsg = err instanceof Error ? err.message : String(err);
+                console.error("[CLO Background] Import failed:", errorMsg);
+                sendResponse({ 
+                    success: false, 
+                    error: errorMsg 
+                });
+            }
             break;
         }
 

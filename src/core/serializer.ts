@@ -269,12 +269,61 @@ export function exportState(state: ReasoningState): string {
 }
 
 /**
- * Import a ReasoningState from JSON.
+ * Validate and import a ReasoningState from JSON.
+ * Ensures all required fields exist and provides sensible defaults for missing fields.
  */
 export function importState(json: string): ReasoningState {
-    const parsed = JSON.parse(json);
-    if (parsed.schemaVersion !== "0.1.0") {
-        throw new Error(`Unsupported schema version: ${parsed.schemaVersion}`);
+    let parsed: any;
+
+    // Try to parse JSON
+    try {
+        parsed = JSON.parse(json);
+    } catch (e) {
+        throw new Error(`Failed to parse JSON: ${e instanceof Error ? e.message : String(e)}`);
     }
-    return parsed as ReasoningState;
+
+    // Validate schema version
+    if (!parsed || typeof parsed !== "object") {
+        throw new Error("Imported data must be a valid JSON object");
+    }
+
+    if (parsed.schemaVersion !== "0.1.0") {
+        throw new Error(`Unsupported schema version: ${parsed.schemaVersion}. Expected 0.1.0`);
+    }
+
+    // Validate required top-level fields
+    if (!parsed.id || typeof parsed.id !== "string") {
+        throw new Error("Missing required field: id");
+    }
+
+    if (!parsed.meta || typeof parsed.meta !== "object") {
+        throw new Error("Missing required field: meta");
+    }
+
+    // Ensure all required arrays exist
+    const state: ReasoningState = {
+        id: parsed.id,
+        schemaVersion: parsed.schemaVersion,
+        meta: {
+            title: parsed.meta?.title || "Imported Task",
+            objective: parsed.meta?.objective || "",
+            createdAt: parsed.meta?.createdAt || Date.now(),
+            updatedAt: parsed.meta?.updatedAt || Date.now(),
+            totalTurns: parsed.meta?.totalTurns || 0,
+            platforms: Array.isArray(parsed.meta?.platforms) ? parsed.meta.platforms : [],
+            models: Array.isArray(parsed.meta?.models) ? parsed.meta.models : [],
+        },
+        constraints: Array.isArray(parsed.constraints) ? parsed.constraints : [],
+        decisions: Array.isArray(parsed.decisions) ? parsed.decisions : [],
+        artifacts: Array.isArray(parsed.artifacts) ? parsed.artifacts : [],
+        openQuestions: Array.isArray(parsed.openQuestions) ? parsed.openQuestions : [],
+        nextAction: parsed.nextAction || "",
+        history: {
+            recentTurns: Array.isArray(parsed.history?.recentTurns) ? parsed.history.recentTurns : [],
+            compressedSegments: Array.isArray(parsed.history?.compressedSegments) ? parsed.history.compressedSegments : [],
+        },
+        provenance: Array.isArray(parsed.provenance) ? parsed.provenance : [],
+    };
+
+    return state;
 }

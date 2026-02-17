@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CLO — Cross-LLM Context Orchestrator",
-  "version": "0.1.0",
-  "description": "Seamless reasoning portability across LLM platforms. Never lose context again.",
+  "version": "0.2.0",
+  "description": "Seamless reasoning portability across 15+ LLM platforms. Never lose context again.",
   "permissions": [
     "storage",
     "activeTab",
@@ -15,7 +15,24 @@
     "https://claude.ai/*",
     "https://gemini.google.com/*",
     "https://grok.x.ai/*",
-    "https://x.com/i/grok*"
+    "https://x.com/i/grok*",
+    "https://www.perplexity.ai/*",
+    "https://perplexity.ai/*",
+    "https://chat.deepseek.com/*",
+    "https://www.deepseek.com/*",
+    "https://kimi.moonshot.cn/*",
+    "https://kimi.com/*",
+    "https://manus.im/*",
+    "https://manus.ai/*",
+    "https://copilot.microsoft.com/*",
+    "https://you.com/*",
+    "https://poe.com/*",
+    "https://huggingface.co/chat/*",
+    "https://tongyi.aliyun.com/*",
+    "https://qwen.ai/*",
+    "https://chat.mistral.ai/*",
+    "https://coral.cohere.com/*",
+    "https://dashboard.cohere.com/*"
   ],
   "background": {
     "service_worker": "service-worker-loader.js",
@@ -24,7 +41,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.ts-loader-Jee9KXdo.js"
+        "assets/index.ts-loader-4Y2uAz7A.js"
       ],
       "matches": [
         "https://chatgpt.com/*",
@@ -32,7 +49,24 @@
         "https://claude.ai/*",
         "https://gemini.google.com/*",
         "https://grok.x.ai/*",
-        "https://x.com/i/grok*"
+        "https://x.com/i/grok*",
+        "https://www.perplexity.ai/*",
+        "https://perplexity.ai/*",
+        "https://chat.deepseek.com/*",
+        "https://www.deepseek.com/*",
+        "https://kimi.moonshot.cn/*",
+        "https://kimi.com/*",
+        "https://manus.im/*",
+        "https://manus.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://you.com/*",
+        "https://poe.com/*",
+        "https://huggingface.co/chat/*",
+        "https://tongyi.aliyun.com/*",
+        "https://qwen.ai/*",
+        "https://chat.mistral.ai/*",
+        "https://coral.cohere.com/*",
+        "https://dashboard.cohere.com/*"
       ],
       "css": [
         "overlay.css"
@@ -56,16 +90,33 @@
   "web_accessible_resources": [
     {
       "matches": [
+        "https://chat.deepseek.com/*",
+        "https://chat.mistral.ai/*",
         "https://chat.openai.com/*",
         "https://chatgpt.com/*",
         "https://claude.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://coral.cohere.com/*",
+        "https://dashboard.cohere.com/*",
         "https://gemini.google.com/*",
         "https://grok.x.ai/*",
-        "https://x.com/*"
+        "https://huggingface.co/*",
+        "https://kimi.com/*",
+        "https://kimi.moonshot.cn/*",
+        "https://manus.ai/*",
+        "https://manus.im/*",
+        "https://perplexity.ai/*",
+        "https://poe.com/*",
+        "https://qwen.ai/*",
+        "https://tongyi.aliyun.com/*",
+        "https://www.deepseek.com/*",
+        "https://www.perplexity.ai/*",
+        "https://x.com/*",
+        "https://you.com/*"
       ],
       "resources": [
-        "assets/injector-DGr5dEOY.js",
-        "assets/index.ts-BHow-N-n.js"
+        "assets/injector-Op4Q08O8.js",
+        "assets/index.ts-B44nvA-n.js"
       ],
       "use_dynamic_url": false
     }

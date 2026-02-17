@@ -60,12 +60,43 @@ function initCLO(): void {
         });
 
         interceptor.start();
+
+        // ── Tab visibility change: re-scan when user switches back ──────────
+        // This fixes the "no capture until reload" bug — when the user switches
+        // to a tab that already has an LLM conversation, we re-scan the page
+        // for any messages that were present before CLO started observing.
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                console.log("[CLO] Tab became visible, re-scanning for messages...");
+                interceptor.rescan();
+            }
+        });
+
+        // ── SPA navigation: detect URL changes without page reload ──────────
+        // Many LLM platforms (ChatGPT, Claude, etc.) use client-side routing.
+        // When the user navigates to a new conversation, we need to re-scan.
+        let lastUrl = window.location.href;
+        const urlObserver = new MutationObserver(() => {
+            if (window.location.href !== lastUrl) {
+                lastUrl = window.location.href;
+                console.log("[CLO] URL changed (SPA navigation), restarting interceptor...");
+
+                // Brief delay to let the new page render
+                setTimeout(() => {
+                    interceptor.stop();
+                    interceptor.start();
+                }, 1500);
+            }
+        });
+
+        urlObserver.observe(document, { subtree: true, childList: true });
+
     } else {
         updateHUD({ platform, status: "unsupported", turns: 0 });
         showNotification(`Platform "${platform}" not fully supported yet`, "warning");
     }
 
-    // ── Listen for injection commands from background/popup ─────────────────
+    // ── Listen for commands from background/popup ────────────────────────────
     chrome.runtime.onMessage.addListener((message: CLOMessage, _sender, sendResponse) => {
         if (message.type === "INJECT_STATE") {
             const { text } = message.payload as { text: string };
@@ -76,6 +107,15 @@ function initCLO(): void {
             );
             sendResponse({ success });
         }
+
+        if (message.type === "RESCAN") {
+            console.log("[CLO] Received RESCAN command from background");
+            if (interceptor) {
+                interceptor.rescan();
+            }
+            sendResponse({ ok: true });
+        }
+
         return true; // Keep channel open for async response
     });
 }

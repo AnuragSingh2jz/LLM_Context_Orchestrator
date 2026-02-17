@@ -8,6 +8,18 @@ import { BaseInterceptor } from "./base";
 import { ChatGPTInterceptor } from "./chatgpt";
 import { ClaudeInterceptor } from "./claude";
 import { GeminiInterceptor } from "./gemini";
+import { GrokInterceptor } from "./grok";
+import { PerplexityInterceptor } from "./perplexity";
+import { DeepSeekInterceptor } from "./deepseek";
+import { KimiInterceptor } from "./kimi";
+import { ManusInterceptor } from "./manus";
+import { CopilotInterceptor } from "./copilot";
+import { YouInterceptor } from "./you";
+import { PoeInterceptor } from "./poe";
+import { HuggingChatInterceptor } from "./huggingchat";
+import { QwenInterceptor } from "./qwen";
+import { MistralInterceptor } from "./mistral";
+import { CohereInterceptor } from "./cohere";
 
 /**
  * URL patterns for platform detection.
@@ -31,6 +43,50 @@ const PLATFORM_PATTERNS: Array<{
         {
             platform: "grok",
             patterns: [/grok\.x\.ai/i, /x\.com\/i\/grok/i],
+        },
+        {
+            platform: "perplexity",
+            patterns: [/perplexity\.ai/i],
+        },
+        {
+            platform: "deepseek",
+            patterns: [/chat\.deepseek\.com/i, /deepseek\.com/i],
+        },
+        {
+            platform: "kimi",
+            patterns: [/kimi\.moonshot\.cn/i, /kimi\.com/i],
+        },
+        {
+            platform: "manus",
+            patterns: [/manus\.im/i, /manus\.ai/i],
+        },
+        {
+            platform: "copilot",
+            patterns: [/copilot\.microsoft\.com/i],
+        },
+        {
+            platform: "you",
+            patterns: [/you\.com/i],
+        },
+        {
+            platform: "poe",
+            patterns: [/poe\.com/i],
+        },
+        {
+            platform: "huggingchat",
+            patterns: [/huggingface\.co\/chat/i],
+        },
+        {
+            platform: "qwen",
+            patterns: [/tongyi\.aliyun\.com/i, /qwen\.ai/i, /chat\.qwen/i],
+        },
+        {
+            platform: "mistral",
+            patterns: [/chat\.mistral\.ai/i],
+        },
+        {
+            platform: "cohere",
+            patterns: [/coral\.cohere\.com/i, /dashboard\.cohere\.com/i],
         },
     ];
 
@@ -65,9 +121,29 @@ export function getInterceptor(
         case "gemini":
             return new GeminiInterceptor();
         case "grok":
-            // Grok interceptor TBD — uses base behavior for now
-            console.log("[CLO] Grok interceptor not yet implemented, using generic");
-            return null;
+            return new GrokInterceptor();
+        case "perplexity":
+            return new PerplexityInterceptor();
+        case "deepseek":
+            return new DeepSeekInterceptor();
+        case "kimi":
+            return new KimiInterceptor();
+        case "manus":
+            return new ManusInterceptor();
+        case "copilot":
+            return new CopilotInterceptor();
+        case "you":
+            return new YouInterceptor();
+        case "poe":
+            return new PoeInterceptor();
+        case "huggingchat":
+            return new HuggingChatInterceptor();
+        case "qwen":
+            return new QwenInterceptor();
+        case "mistral":
+            return new MistralInterceptor();
+        case "cohere":
+            return new CohereInterceptor();
         default:
             return null;
     }

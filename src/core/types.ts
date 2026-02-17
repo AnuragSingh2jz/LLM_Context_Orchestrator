@@ -6,7 +6,23 @@
 /**
  * Supported LLM platforms.
  */
-export type LLMPlatform = "chatgpt" | "claude" | "gemini" | "grok" | "unknown";
+export type LLMPlatform =
+    | "chatgpt"
+    | "claude"
+    | "gemini"
+    | "grok"
+    | "perplexity"
+    | "deepseek"
+    | "kimi"
+    | "manus"
+    | "copilot"
+    | "you"
+    | "poe"
+    | "huggingchat"
+    | "qwen"
+    | "mistral"
+    | "cohere"
+    | "unknown";
 
 /**
  * The role of a message participant.
@@ -225,7 +241,8 @@ export type CLOMessageType =
     | "PLATFORM_DETECTED"
     | "HUD_UPDATE"
     | "EXPORT_STATE"
-    | "IMPORT_STATE";
+    | "IMPORT_STATE"
+    | "RESCAN";
 
 export interface CLOMessage<T = unknown> {
     type: CLOMessageType;

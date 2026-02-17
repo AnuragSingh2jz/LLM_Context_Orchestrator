@@ -182,21 +182,21 @@ async function handleMessage(
         case "IMPORT_STATE": {
             try {
                 const { state } = message.payload as { state: ReasoningState };
-                
+
                 // Validate that the state is a valid ReasoningState object
                 if (!state || typeof state !== "object") {
                     throw new Error("Invalid state object");
                 }
-                
+
                 if (!state.id || !state.meta) {
                     throw new Error("State missing required fields");
                 }
 
                 activeState = state;
                 await saveState(state);
-                
+
                 console.log("[CLO Background] State imported successfully:", state.meta.title);
-                sendResponse({ 
+                sendResponse({
                     success: true,
                     message: `Imported state: ${state.meta.title}`,
                     stateId: state.id
@@ -204,9 +204,9 @@ async function handleMessage(
             } catch (err) {
                 const errorMsg = err instanceof Error ? err.message : String(err);
                 console.error("[CLO Background] Import failed:", errorMsg);
-                sendResponse({ 
-                    success: false, 
-                    error: errorMsg 
+                sendResponse({
+                    success: false,
+                    error: errorMsg
                 });
             }
             break;
@@ -225,9 +225,20 @@ function getPlatformColor(platform: LLMPlatform): string {
         claude: "#D97757",
         gemini: "#4285F4",
         grok: "#000000",
+        perplexity: "#20B8CD",
+        deepseek: "#4D6BFE",
+        kimi: "#6C5CE7",
+        manus: "#FF6B35",
+        copilot: "#7B68EE",
+        you: "#7C3AED",
+        poe: "#5A67D8",
+        huggingchat: "#FFD21E",
+        qwen: "#615AEF",
+        mistral: "#FF7000",
+        cohere: "#39594D",
         unknown: "#888888",
     };
-    return colors[platform];
+    return colors[platform] || "#888888";
 }
 
 function findActiveTab(): number | null {
@@ -255,6 +266,29 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
         const existing = activeTabs.get(tabId);
         if (existing && !changeInfo.url.includes(existing.platform)) {
             activeTabs.delete(tabId);
+        }
+    }
+});
+
+// ─── Tab activation — tell content script to re-scan on tab switch ───────────
+
+chrome.tabs.onActivated.addListener(async (activeInfo) => {
+    const tabId = activeInfo.tabId;
+    const tracked = activeTabs.get(tabId);
+
+    if (tracked) {
+        // This tab has CLO active — tell the content script to rescan
+        // for any existing messages it may have missed
+        try {
+            await chrome.tabs.sendMessage(tabId, {
+                type: "RESCAN",
+                payload: {},
+                timestamp: Date.now(),
+                source: "background",
+            } as CLOMessage);
+            console.log(`[CLO] Sent RESCAN to tab ${tabId} (${tracked.platform})`);
+        } catch {
+            // Content script not ready yet or tab not matching, ignore
         }
     }
 });

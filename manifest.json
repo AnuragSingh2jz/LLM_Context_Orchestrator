@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "CLO — Cross-LLM Context Orchestrator",
-    "version": "0.1.0",
-    "description": "Seamless reasoning portability across LLM platforms. Never lose context again.",
+    "version": "0.2.0",
+    "description": "Seamless reasoning portability across 15+ LLM platforms. Never lose context again.",
     "permissions": [
         "storage",
         "activeTab",
@@ -15,7 +15,24 @@
         "https://claude.ai/*",
         "https://gemini.google.com/*",
         "https://grok.x.ai/*",
-        "https://x.com/i/grok*"
+        "https://x.com/i/grok*",
+        "https://www.perplexity.ai/*",
+        "https://perplexity.ai/*",
+        "https://chat.deepseek.com/*",
+        "https://www.deepseek.com/*",
+        "https://kimi.moonshot.cn/*",
+        "https://kimi.com/*",
+        "https://manus.im/*",
+        "https://manus.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://you.com/*",
+        "https://poe.com/*",
+        "https://huggingface.co/chat/*",
+        "https://tongyi.aliyun.com/*",
+        "https://qwen.ai/*",
+        "https://chat.mistral.ai/*",
+        "https://coral.cohere.com/*",
+        "https://dashboard.cohere.com/*"
     ],
     "background": {
         "service_worker": "src/background/index.ts",
@@ -29,7 +46,24 @@
                 "https://claude.ai/*",
                 "https://gemini.google.com/*",
                 "https://grok.x.ai/*",
-                "https://x.com/i/grok*"
+                "https://x.com/i/grok*",
+                "https://www.perplexity.ai/*",
+                "https://perplexity.ai/*",
+                "https://chat.deepseek.com/*",
+                "https://www.deepseek.com/*",
+                "https://kimi.moonshot.cn/*",
+                "https://kimi.com/*",
+                "https://manus.im/*",
+                "https://manus.ai/*",
+                "https://copilot.microsoft.com/*",
+                "https://you.com/*",
+                "https://poe.com/*",
+                "https://huggingface.co/chat/*",
+                "https://tongyi.aliyun.com/*",
+                "https://qwen.ai/*",
+                "https://chat.mistral.ai/*",
+                "https://coral.cohere.com/*",
+                "https://dashboard.cohere.com/*"
             ],
             "js": [
                 "src/content/index.ts"

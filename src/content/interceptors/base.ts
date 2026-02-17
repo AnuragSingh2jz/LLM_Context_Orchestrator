@@ -24,6 +24,19 @@ export abstract class BaseInterceptor {
     protected turnCounter = 0;
 
     /**
+     * Track content hashes of already-captured messages to avoid duplicates.
+     * This is essential for re-scan on tab switch without double-counting.
+     */
+    private capturedHashes: Set<string> = new Set();
+
+    /**
+     * Stored references for re-scanning existing messages.
+     */
+    private observedContainer: Element | null = null;
+    private observedSelector: string = "";
+    private observedRoleDetector: ((el: Element) => MessageRole | null) | null = null;
+
+    /**
      * Start intercepting conversation activity on this platform.
      */
     abstract start(): void;
@@ -52,6 +65,15 @@ export abstract class BaseInterceptor {
         for (const cb of this.turnCallbacks) {
             cb(turn);
         }
+    }
+
+    /**
+     * Generate a hash for deduplication.
+     * Uses role + first 200 chars of content to identify unique messages.
+     */
+    private hashMessage(role: MessageRole, content: string): string {
+        const normalized = content.trim().slice(0, 200);
+        return `${role}::${normalized}`;
     }
 
     /**
@@ -103,12 +125,24 @@ export abstract class BaseInterceptor {
     /**
      * Observe DOM mutations in a specific container.
      * This is the primary method for capturing conversation updates.
+     *
+     * FIXED: Now also captures all existing messages on the page immediately,
+     * using dedup hashes to avoid re-emitting the same content if re-scanned.
      */
     protected observeContainer(
         container: Element,
         messageSelector: string,
         roleDetector: (el: Element) => MessageRole | null
     ): void {
+        // Store references for re-scanning later (tab switch, visibility change)
+        this.observedContainer = container;
+        this.observedSelector = messageSelector;
+        this.observedRoleDetector = roleDetector;
+
+        // ── Capture all EXISTING messages immediately ───────────────────────
+        this.scanExistingMessages(container, messageSelector, roleDetector);
+
+        // ── Set up observer for NEW messages going forward ──────────────────
         let lastMessageCount = container.querySelectorAll(messageSelector).length;
 
         this.observer = new MutationObserver(() => {
@@ -121,12 +155,16 @@ export abstract class BaseInterceptor {
                     if (role) {
                         const content = this.extractTextContent(msgEl);
                         if (content.trim()) {
-                            const turn = this.createTurn(
-                                role,
-                                content,
-                                this.detectModel()
-                            );
-                            this.emitTurn(turn);
+                            const hash = this.hashMessage(role, content);
+                            if (!this.capturedHashes.has(hash)) {
+                                this.capturedHashes.add(hash);
+                                const turn = this.createTurn(
+                                    role,
+                                    content,
+                                    this.detectModel()
+                                );
+                                this.emitTurn(turn);
+                            }
                         }
                     }
                 }
@@ -138,6 +176,67 @@ export abstract class BaseInterceptor {
             childList: true,
             subtree: true,
         });
+    }
+
+    /**
+     * Scan and emit all existing messages currently on the page.
+     * Uses content hashing to avoid duplicates on re-scan.
+     */
+    private scanExistingMessages(
+        container: Element,
+        messageSelector: string,
+        roleDetector: (el: Element) => MessageRole | null
+    ): void {
+        const messages = container.querySelectorAll(messageSelector);
+        let emitted = 0;
+
+        for (const msgEl of messages) {
+            const role = roleDetector(msgEl);
+            if (role) {
+                const content = this.extractTextContent(msgEl);
+                if (content.trim()) {
+                    const hash = this.hashMessage(role, content);
+                    if (!this.capturedHashes.has(hash)) {
+                        this.capturedHashes.add(hash);
+                        const turn = this.createTurn(
+                            role,
+                            content,
+                            this.detectModel()
+                        );
+                        this.emitTurn(turn);
+                        emitted++;
+                    }
+                }
+            }
+        }
+
+        if (emitted > 0) {
+            console.log(`[CLO] Captured ${emitted} existing messages from page`);
+        }
+    }
+
+    /**
+     * Re-scan the page for messages.
+     * Called when the tab becomes visible again or on explicit rescan request.
+     * Only emits messages that haven't been captured before (dedup by hash).
+     */
+    rescan(): void {
+        if (this.observedContainer && this.observedSelector && this.observedRoleDetector) {
+            // The container reference might have gone stale (SPA navigation),
+            // so verify it's still in the DOM
+            if (document.contains(this.observedContainer)) {
+                console.log("[CLO] Re-scanning page for messages...");
+                this.scanExistingMessages(
+                    this.observedContainer,
+                    this.observedSelector,
+                    this.observedRoleDetector
+                );
+            } else {
+                console.log("[CLO] Container no longer in DOM, restarting interceptor...");
+                this.stop();
+                this.start();
+            }
+        }
     }
 
     /**

@@ -31,6 +31,17 @@
     --claude: #d97757;
     --gemini: #4285f4;
     --grok: #e8e8e8;
+    --perplexity: #20b8cd;
+    --deepseek: #4d6bfe;
+    --kimi: #6c5ce7;
+    --manus: #ff6b35;
+    --copilot: #7b68ee;
+    --you: #7c3aed;
+    --poe: #5a67d8;
+    --huggingchat: #ffd21e;
+    --qwen: #615aef;
+    --mistral: #ff7000;
+    --cohere: #39594d;
     --radius: 10px;
     --radius-sm: 6px;
     --font: 'Inter', -apple-system, sans-serif;
@@ -169,6 +180,61 @@ body {
 .platform-badge.grok {
     color: var(--grok);
     border-color: rgba(232, 232, 232, 0.3);
+}
+
+.platform-badge.perplexity {
+    color: var(--perplexity);
+    border-color: rgba(32, 184, 205, 0.3);
+}
+
+.platform-badge.deepseek {
+    color: var(--deepseek);
+    border-color: rgba(77, 107, 254, 0.3);
+}
+
+.platform-badge.kimi {
+    color: var(--kimi);
+    border-color: rgba(108, 92, 231, 0.3);
+}
+
+.platform-badge.manus {
+    color: var(--manus);
+    border-color: rgba(255, 107, 53, 0.3);
+}
+
+.platform-badge.copilot {
+    color: var(--copilot);
+    border-color: rgba(123, 104, 238, 0.3);
+}
+
+.platform-badge.you {
+    color: var(--you);
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+.platform-badge.poe {
+    color: var(--poe);
+    border-color: rgba(90, 103, 216, 0.3);
+}
+
+.platform-badge.huggingchat {
+    color: var(--huggingchat);
+    border-color: rgba(255, 210, 30, 0.3);
+}
+
+.platform-badge.qwen {
+    color: var(--qwen);
+    border-color: rgba(97, 90, 239, 0.3);
+}
+
+.platform-badge.mistral {
+    color: var(--mistral);
+    border-color: rgba(255, 112, 0, 0.3);
+}
+
+.platform-badge.cohere {
+    color: var(--cohere);
+    border-color: rgba(57, 89, 77, 0.3);
 }
 
 /* ── Task Section ───────────────────────────────────────────────────────────── */

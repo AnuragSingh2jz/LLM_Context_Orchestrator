@@ -21,6 +21,17 @@
   --clo-claude: #d97757;
   --clo-gemini: #4285f4;
   --clo-grok: #ffffff;
+  --clo-perplexity: #20b8cd;
+  --clo-deepseek: #4d6bfe;
+  --clo-kimi: #6c5ce7;
+  --clo-manus: #ff6b35;
+  --clo-copilot: #7b68ee;
+  --clo-you: #7c3aed;
+  --clo-poe: #5a67d8;
+  --clo-huggingchat: #ffd21e;
+  --clo-qwen: #615aef;
+  --clo-mistral: #ff7000;
+  --clo-cohere: #39594d;
   --clo-radius: 12px;
   --clo-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --clo-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -76,7 +87,9 @@
 }
 
 @keyframes clo-rotate {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #clo-hud-toggle:hover {
@@ -110,6 +123,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -158,8 +172,15 @@
 }
 
 @keyframes clo-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* ── Stats Grid ─────────────────────────────────────────────────────────────── */
@@ -218,10 +239,65 @@
   border-radius: 50%;
 }
 
-.clo-platform-dot.chatgpt { background: var(--clo-chatgpt); }
-.clo-platform-dot.claude { background: var(--clo-claude); }
-.clo-platform-dot.gemini { background: var(--clo-gemini); }
-.clo-platform-dot.grok { background: var(--clo-grok); }
+.clo-platform-dot.chatgpt {
+  background: var(--clo-chatgpt);
+}
+
+.clo-platform-dot.claude {
+  background: var(--clo-claude);
+}
+
+.clo-platform-dot.gemini {
+  background: var(--clo-gemini);
+}
+
+.clo-platform-dot.grok {
+  background: var(--clo-grok);
+}
+
+.clo-platform-dot.perplexity {
+  background: var(--clo-perplexity);
+}
+
+.clo-platform-dot.deepseek {
+  background: var(--clo-deepseek);
+}
+
+.clo-platform-dot.kimi {
+  background: var(--clo-kimi);
+}
+
+.clo-platform-dot.manus {
+  background: var(--clo-manus);
+}
+
+.clo-platform-dot.copilot {
+  background: var(--clo-copilot);
+}
+
+.clo-platform-dot.you {
+  background: var(--clo-you);
+}
+
+.clo-platform-dot.poe {
+  background: var(--clo-poe);
+}
+
+.clo-platform-dot.huggingchat {
+  background: var(--clo-huggingchat);
+}
+
+.clo-platform-dot.qwen {
+  background: var(--clo-qwen);
+}
+
+.clo-platform-dot.mistral {
+  background: var(--clo-mistral);
+}
+
+.clo-platform-dot.cohere {
+  background: var(--clo-cohere);
+}
 
 /* ── Action Buttons ─────────────────────────────────────────────────────────── */
 
@@ -286,7 +362,18 @@
   transform: translateX(0);
 }
 
-#clo-notification.info { border-left: 3px solid var(--clo-accent); }
-#clo-notification.success { border-left: 3px solid var(--clo-success); }
-#clo-notification.warning { border-left: 3px solid var(--clo-warning); }
-#clo-notification.error { border-left: 3px solid var(--clo-error); }
+#clo-notification.info {
+  border-left: 3px solid var(--clo-accent);
+}
+
+#clo-notification.success {
+  border-left: 3px solid var(--clo-success);
+}
+
+#clo-notification.warning {
+  border-left: 3px solid var(--clo-warning);
+}
+
+#clo-notification.error {
+  border-left: 3px solid var(--clo-error);
+}

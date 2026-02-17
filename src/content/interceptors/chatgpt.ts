@@ -27,8 +27,7 @@ export class ChatGPTInterceptor extends BaseInterceptor {
                     '[data-message-author-role]',
                     this.detectRole.bind(this)
                 );
-                // Also try to capture existing messages
-                this.captureExistingMessages(container);
+                // Base class now captures existing messages automatically
             } else {
                 setTimeout(check, 1000);
             }
@@ -59,22 +58,5 @@ export class ChatGPTInterceptor extends BaseInterceptor {
             return text;
         }
         return "chatgpt-unknown";
-    }
-
-    private captureExistingMessages(container: Element): void {
-        const messages = container.querySelectorAll(
-            '[data-message-author-role]'
-        );
-        for (const msg of messages) {
-            const role = this.detectRole(msg);
-            if (role) {
-                const content = this.extractTextContent(msg);
-                if (content.trim()) {
-                    const turn = this.createTurn(role, content, this.detectModel());
-                    // Don't emit existing messages as "new" — store them silently
-                    // They can be loaded via initial state capture
-                }
-            }
-        }
     }
 }

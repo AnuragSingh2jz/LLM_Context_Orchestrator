@@ -93,6 +93,17 @@ function renderProvenance(state: ReasoningState): void {
         claude: "#d97757",
         gemini: "#4285f4",
         grok: "#e8e8e8",
+        perplexity: "#20b8cd",
+        deepseek: "#4d6bfe",
+        kimi: "#6c5ce7",
+        manus: "#ff6b35",
+        copilot: "#7b68ee",
+        you: "#7c3aed",
+        poe: "#5a67d8",
+        huggingchat: "#ffd21e",
+        qwen: "#615aef",
+        mistral: "#ff7000",
+        cohere: "#39594d",
         unknown: "#888",
     };
 
@@ -154,11 +165,11 @@ function setupListeners(): void {
         input.onchange = async (e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (!file) return;
-            
+
             try {
                 const text = await file.text();
                 const state = importState(text);
-                
+
                 const response = await chrome.runtime.sendMessage({
                     type: "IMPORT_STATE",
                     payload: { state },
